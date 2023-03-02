@@ -1,13 +1,15 @@
 package br.com.glafoxyquiz.domain.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
-public class User {
+public class Group {
     
     @EqualsAndHashCode.Include
     @Id
@@ -16,9 +18,6 @@ public class User {
     
     private String name;
     
-    @Column(nullable = false)
-    private String username;
-    
-    @Column(nullable = false)
-    private String password;
+    @OneToOne
+    private User user;
 }
