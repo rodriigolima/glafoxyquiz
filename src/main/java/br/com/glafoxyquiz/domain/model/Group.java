@@ -1,11 +1,11 @@
 package br.com.glafoxyquiz.domain.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -18,6 +18,8 @@ public class Group {
     
     private String name;
     
-    @OneToOne
-    private User user;
+    @ManyToMany
+    @JoinTable(name = "group_authorization", joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "authorization_id"))
+    private List<Authorization> authorizations = new ArrayList<>();
 }
