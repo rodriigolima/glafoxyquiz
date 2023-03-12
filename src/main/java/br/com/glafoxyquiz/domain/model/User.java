@@ -20,7 +20,7 @@ public class User {
     private String nickname;
     
     @Column(nullable = false)
-    private String username;
+    private String email;
     
     @Column(nullable = false)
     private String password;

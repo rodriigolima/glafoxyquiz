@@ -6,6 +6,7 @@ import br.com.glafoxyquiz.domain.repository.QuestionRepository;
 import br.com.glafoxyquiz.domain.service.RegisterQuestionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,14 +55,9 @@ public class QuestionController {
     }
     
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<?> remove(@PathVariable Long questionId) {
-        try {
-            registerQuestionService.exclude(questionId);
-            
-            return ResponseEntity.noContent().build();
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remove(@PathVariable Long questionId) {
+        registerQuestionService.exclude(questionId);
     }
     
     
