@@ -38,20 +38,12 @@ public class QuestionController {
     }
     
     @PutMapping("/{questionId}")
-    public ResponseEntity<?> update(@PathVariable Long questionId, @RequestBody Question question) {
-        try {
-            Question questionCurrent = questionRepository.findById(questionId).orElse(null);
-            
-            if (questionCurrent != null) {
-                BeanUtils.copyProperties(question, questionCurrent, "id");
-                
-                questionCurrent = registerQuestionService.save(questionCurrent);
-                return ResponseEntity.ok(questionCurrent);
-            }
-            return ResponseEntity.notFound().build();
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Question update(@PathVariable Long questionId, @RequestBody Question question) {
+        Question questionCurrent = registerQuestionService.findOrFail(questionId);
+
+        BeanUtils.copyProperties(question, questionCurrent, "id");
+
+        return registerQuestionService.save(questionCurrent);
     }
     
     @DeleteMapping("/{questionId}")

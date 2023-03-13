@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterQuestionService {
-    
+
+    public static final String MSG_ENTITY_NOT_FOUND = "Question with id=%d not found!";
     @Autowired
     private QuestionRepository questionRepository;
     
@@ -21,7 +22,12 @@ public class RegisterQuestionService {
         try {
             questionRepository.deleteById(questionId);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException(String.format("Question with id=%d not found!", questionId));
+            throw new EntityNotFoundException(String.format(MSG_ENTITY_NOT_FOUND, questionId));
         }
+    }
+    
+    public Question findOrFail(Long questionId) {
+        return questionRepository.findById(questionId).orElseThrow(() -> new EntityNotFoundException(
+                String.format(MSG_ENTITY_NOT_FOUND, questionId)));
     }
 }
